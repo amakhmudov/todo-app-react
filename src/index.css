@@ -79,19 +79,19 @@
   }
 
   .todo__buttons .btn {
-    @apply relative flex items-center justify-center size-6 transition opacity-70 hover:opacity-100;
+    @apply relative flex items-center justify-center size-6 transition opacity-40 hover:opacity-100 cursor-pointer;
   }
 
   .todo--delete {
-    background: url(./iassets/delete.svg) 50% 50% no-repeat;
+    background: url(./assets/delete.svg) 50% 50% no-repeat;
   }
 
   .todo--complete {
-    background: url(./iassets/check.svg) 50% 50% no-repeat;
+    background: url(./assets/check.svg) 50% 50% no-repeat;
   }
 
   .todo__item.is_completed .todo--complete {
-    background: url(./iassets/uncheck.svg) 50% 50% no-repeat;
+    background: url(./assets/uncheck.svg) 50% 50% no-repeat;
   }
 
   .todo__item--remove {
