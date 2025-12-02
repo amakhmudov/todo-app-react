@@ -2,11 +2,30 @@ import { useId, useState } from "react";
 
 function App() {
   const todoTitle = useId();
-  const [todoItem, setTodoItem] = useState([]);
+  const [todoText, setTodoText] = useState("");
+  const [todoItems, setTodoItems] = useState([]);
 
   function handleTodo(event) {
     event.preventDefault();
-    console.log(todoItem);
+    const text = todoText.trim();
+    if (text === "") {
+      return;
+    }
+    const id = "id" + Date.now();
+    setTodoItems((prev) => [...prev, { id, text, completed: false }]);
+    setTodoText("");
+  }
+
+  function handleDelete(id) {
+    setTodoItems((prev) => prev.filter((item) => item.id !== id));
+  }
+
+  function handleComplete(id) {
+    setTodoItems((prev) =>
+      prev.map(
+        (item) => item.id === id && { ...item, completed: !item.completed }
+      )
+    );
   }
 
   return (
@@ -21,8 +40,8 @@ function App() {
                 id={todoTitle}
                 className="todo__title"
                 placeholder="Enter an activity"
-                value={todoItem}
-                onChange={(event) => setTodoItem(event.target.value)}
+                value={todoText}
+                onChange={(event) => setTodoText(event.target.value)}
               />
 
               <button
@@ -48,40 +67,32 @@ function App() {
           </div>
 
           <ul className="todo__body">
-            <li className="todo__item">
-              <p>Todo item</p>
-              <div className="todo__buttons">
-                <button className="btn todo--delete">
-                  <span className="sr-only">todo delete</span>
-                </button>
-                <button className="btn todo--complete">
-                  <span className="sr-only">mark as completed</span>
-                </button>
-              </div>
-            </li>
-
-            {/* <li className="todo__item is_completed">
-              <p>Todo item</p>
-              <div className="todo__buttons">
-                <button className="btn todo--delete">
-                  <span className="sr-only">todo delete</span>
-                </button>
-                <button className="btn todo--complete">
-                  <span className="sr-only">mark as completed</span>
-                </button>
-              </div>
-            </li> */}
+            {todoItems.length !== 0 &&
+              todoItems.map((item) => (
+                <li
+                  key={item.id}
+                  className={`todo__item ${item.completed && "is_completed"}`}
+                >
+                  <p>{item.text}</p>
+                  <div className="todo__buttons">
+                    <button
+                      className="btn todo--delete"
+                      onClick={() => handleDelete(item.id)}
+                    >
+                      <span className="sr-only">todo delete</span>
+                    </button>
+                    <button
+                      className="btn todo--complete"
+                      onClick={() => handleComplete(item.id)}
+                    >
+                      <span className="sr-only">mark as completed</span>
+                    </button>
+                  </div>
+                </li>
+              ))}
           </ul>
 
           <ul className="todo__body--completed"></ul>
-
-          {/* <li className="todo__item is_completed">
-        <p>Todo item</p>
-        <div className="todo__buttons">
-          <button className="btn todo--delete"><span className="sr-only">todo delete</span></button>
-          <button className="btn todo--complete"><span className="sr-only">mark as completed</span></button>
-        </div>
-      </li> */}
         </div>
       </div>
     </>
