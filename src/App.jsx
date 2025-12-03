@@ -22,8 +22,8 @@ function App() {
 
   function handleComplete(id) {
     setTodoItems((prev) =>
-      prev.map(
-        (item) => item.id === id && { ...item, completed: !item.completed }
+      prev.map((item) =>
+        item.id === id ? { ...item, completed: !item.completed } : item
       )
     );
   }
